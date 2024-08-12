@@ -13,7 +13,7 @@ const supplements = [
     { image: 'protein.webp', price: '$44.88', rating: 4, description: 'Protein powder aids muscle growth and repair.' },
 ];
 
-const SupplementList = () => {
+const SupplementList = ({ addToCart }) => {
     return (
         <div className="supplement-list">
             {supplements.map((item, index) => (
@@ -23,7 +23,12 @@ const SupplementList = () => {
                         <p className="supplement-price">{item.price}</p>
                         <p className="supplement-description">{item.description}</p>
                         <StarRating rating={item.rating} />
-                        <button className="add-to-cart-button">Add to Cart</button>
+                        <button 
+                            className="add-to-cart-button"
+                            onClick={() => addToCart(item)} // Add to Cart function
+                        >
+                            Add to Cart
+                        </button>
                     </div>
                 </div>
             ))}
