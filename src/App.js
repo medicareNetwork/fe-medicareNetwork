@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './Header';
 import VideoSection from './VideoSection';
 import './App.css';
@@ -10,12 +10,27 @@ import Footer from './Footer';
 import NewArrivals from './NewArrivals';
 import BestSellers from './BestSellers';
 import SaleItems from './SaleItems';
-import Cart from './Cart'; // Cart import 추가
+import Cart from './Cart';
+import Community from './Community'; // 게시판 페이지 import
+import ContactUs from './ContactUs';
 
 function App() {
     const [isLoginScreen, setIsLoginScreen] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const [cartMessage, setCartMessage] = useState('');
+
+    // 로컬 스토리지에서 카트 아이템을 불러옵니다.
+    useEffect(() => {
+        const storedCartItems = localStorage.getItem('cartItems');
+        if (storedCartItems) {
+            setCartItems(JSON.parse(storedCartItems));
+        }
+    }, []);
+
+    // 카트 아이템이 변경될 때마다 로컬 스토리지에 저장합니다.
+    useEffect(() => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
 
     const handleLoginClick = () => {
         setIsLoginScreen(true);
@@ -28,13 +43,19 @@ function App() {
     };
 
     const handleCartClick = () => {
-        window.location.href = '/cart'; // 카트 버튼 클릭 시 카트 페이지로 이동
+        // Cart 버튼 클릭 시 카트 페이지로 이동
+        window.location.href = '/cart';
+    };
+
+    const handleCommunityClick = () => {
+        // Community 버튼 클릭 시 커뮤니티 페이지로 이동
+        window.location.href = '/community';
     };
 
     return (
         <Router>
             <div className="App">
-                <Header onLoginClick={handleLoginClick} onCartClick={handleCartClick} cartCount={cartItems.length} />
+                <Header onLoginClick={handleLoginClick} onCartClick={handleCartClick} onCommunityClick={handleCommunityClick} cartCount={cartItems.length} />
                 {cartMessage && <div className="cart-message">{cartMessage}</div>}
                 <div className="content">
                     {isLoginScreen ? (
@@ -46,7 +67,9 @@ function App() {
                                 <Route path="/new-arrivals" element={<NewArrivals addToCart={addToCart} />} />
                                 <Route path="/best-sellers" element={<BestSellers addToCart={addToCart} />} />
                                 <Route path="/sale-items" element={<SaleItems addToCart={addToCart} />} />
-                                <Route path="/cart" element={<Cart cart={cartItems} />} /> {/* Cart 컴포넌트 사용 */}
+                                <Route path="/cart" element={<Cart cart={cartItems} />} />
+                                <Route path="/community" element={<Community />} /> {/* Community 페이지 라우팅 추가 */}
+                                <Route path="/contact-us" element={<ContactUs />} /> {/* Contact Us 페이지 추가 */}
                             </Routes>
                             <SupplementButton />
                             <SupplementList addToCart={addToCart} />
