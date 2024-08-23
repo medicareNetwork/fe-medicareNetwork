@@ -1,37 +1,42 @@
+/* 전체 헤더 스타일 */
 .header {
   width: 100%;
   background-color: #333;
   color: #fff;
   display: flex;
-  justify-content: center; /* Center the header content horizontally */
+  justify-content: center;
   align-items: center;
   padding: 10px 20px;
   box-sizing: border-box;
 }
 
+/* 헤더 내부 컨텐츠 스타일 */
 .header-content {
   display: flex;
   width: 100%;
-  max-width: 1400px; /* Increase max-width to allow more space for menu items */
-  justify-content: space-between; /* Space between logo/nav and auth section */
+  max-width: 1400px;
+  justify-content: space-between;
   align-items: center;
 }
 
+/* 로고 스타일 */
 .logo {
-  font-size: 2em; /* Increased font size for better visibility */
+  font-size: 2em;
   font-weight: bold;
-  color: #fff; /* Text color remains white */
-  background: none; /* Remove any background or gradient */
+  color: #fff;
+  background: none;
   border: none;
   cursor: pointer;
   padding: 0;
+  margin-right: 20px;
+  white-space: nowrap; /* 로고가 줄바꿈되지 않도록 설정 */
 }
 
+/* 네비게이션 스타일 */
 .nav {
   display: flex;
   flex: 1;
-  justify-content: center; /* Center nav items */
-  overflow: auto; /* Allow scrolling if items overflow */
+  justify-content: center;
 }
 
 .nav ul {
@@ -39,19 +44,20 @@
   display: flex;
   margin: 0;
   padding: 0;
-  flex-wrap: wrap; /* Allow items to wrap if necessary */
+  flex-wrap: nowrap; /* 메뉴가 한 줄에 나오도록 설정 */
 }
 
 .nav li {
-  margin: 0 25px; /* Adjusted space between menu items */
+  margin: 0 15px;
 }
 
 .nav a {
   color: #fff;
   text-decoration: none;
-  font-size: 1.2em; /* Increased font size for menu items */
+  font-size: 1.1em;
   font-weight: 500;
   transition: color 0.3s ease;
+  white-space: nowrap; /* 메뉴 항목이 줄바꿈되지 않도록 설정 */
 }
 
 .nav a:hover {
@@ -59,15 +65,18 @@
   text-decoration: underline;
 }
 
+/* 로그인, 카트, 마이페이지, 약국 찾기 버튼 */
 .auth {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap; /* 요소들이 줄바꿈되도록 설정 */
 }
 
 .search-form {
   display: flex;
   align-items: center;
-  margin-right: 10px; /* Add spacing between search form and buttons */
+  margin-right: 10px;
 }
 
 .search-input {
@@ -76,26 +85,88 @@
   border-radius: 5px;
   outline: none;
   margin-right: 5px;
-  display: none; /* Hide the search input */
 }
 
 .search-input:focus {
   border-color: #666;
 }
 
+/* 버튼들의 공통 스타일링 */
 .login-btn,
-.cart-btn {
+.cart-btn,
+.mypage-btn, 
+.pharmacy-btn {
   background-color: #555;
   border: none;
   color: #fff;
-  padding: 10px 20px;
+  padding: 8px 15px;
   margin-left: 10px;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 1em; /* Increased font size for buttons */
+  font-size: 0.9em;
+  text-decoration: none;
+  white-space: nowrap; /* 버튼 텍스트가 줄바꿈되지 않도록 설정 */
 }
 
 .login-btn:hover,
-.cart-btn:hover {
+.cart-btn:hover,
+.mypage-btn:hover,
+.pharmacy-btn:hover {
   background-color: #777;
+} 
+
+/* MyPage 컴포넌트 전체 스타일 */
+.my-page {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9; /* 배경 색상 추가 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+}
+
+/* 제목 스타일 */
+h2, h3 {
+    color: #333;
+    margin-bottom: 20px; /* 제목 간격 조정 */
+}
+
+/* 장바구니 상태, 비밀번호 변경, 개인정보 수정 섹션 스타일 */
+.cart-status, .password-update, .personal-info-update {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #fff; /* 섹션 배경색 */
+    border-radius: 5px; /* 섹션 모서리 둥글게 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 섹션 그림자 */
+}
+
+/* 입력 필드 스타일 */
+input {
+    display: block;
+    width: calc(100% - 22px); /* 테두리와 패딩을 고려하여 너비 조정 */
+    padding: 8px 12px; /* 버튼과 일치하도록 패딩 조정 */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #444; /* 버튼과 동일한 테두리 색상 */
+    border-radius: 5px;
+    box-sizing: border-box; /* 패딩과 테두리 포함하여 너비 계산 */
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #555; /* 헤더의 카트 버튼과 동일한 배경색 */
+    border: none;
+    color: #fff;
+    padding: 8px 15px; /* 버튼과 동일한 패딩 */
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.9em; /* 버튼과 동일한 텍스트 크기 */
+    text-decoration: none;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    transition: background-color 0.3s ease; /* 부드러운 색상 전환 */
+}
+
+button:hover {
+    background-color: #777; /* 버튼 호버 색상 */
 }
