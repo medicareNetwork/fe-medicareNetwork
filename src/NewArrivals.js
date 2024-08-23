@@ -1,7 +1,8 @@
+// NewArrivals.js
 import React from 'react';
 import './NewArrivals.css'; // 별도의 CSS 파일을 사용할 예정
 
-const products = [
+export const products = [
     { id: 1, name: 'Coral Calcium', price: '$29.99', image: 'cal.avif' },
     { id: 2, name: 'Evening Primrose Oil', price: '$49.99', image: 'eve.jfif' },
     { id: 3, name: 'Goat Milk Horse Oil', price: '$19.99', image: 'cream.jfif' },

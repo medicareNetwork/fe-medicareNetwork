@@ -1,16 +1,38 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const Header = ({ onLoginClick, onCartClick, onCommunityClick, cartCount }) => {
-    const [searchTerm, setSearchTerm] = useState('');
+    const [mapVisible, setMapVisible] = useState(false);
 
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
+    const handlePharmacySearch = () => {
+        setMapVisible(true);
 
-    const handleSearchSubmit = (event) => {
-        event.preventDefault();
-        console.log('Search term:', searchTerm);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+
+                const map = L.map('map').setView([lat, lng], 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                L.marker([lat, lng]).addTo(map)
+                    .bindPopup('You are here')
+                    .openPopup();
+
+                // Sample marker for nearby pharmacy
+                L.marker([lat + 0.01, lng + 0.01]).addTo(map)
+                    .bindPopup('Nearby Pharmacy')
+                    .openPopup();
+            });
+        } else {
+            alert('Geolocation is not supported by this browser.');
+        }
     };
 
     return (
@@ -19,31 +41,26 @@ const Header = ({ onLoginClick, onCartClick, onCommunityClick, cartCount }) => {
                 <button className="logo" onClick={() => window.location.href = '/'}>Medicare Network</button>
                 <nav className="nav">
                     <ul className="left-menu">
-                        <li><a href="/new-arrivals">New Arrivals</a></li>
-                        <li><a href="/best-sellers">Best Sellers</a></li>
-                        <li><a href="/sale-items">Sale Items</a></li>
+                        <li><Link to="/new-arrivals">New Arrivals</Link></li>
+                        <li><Link to="/best-sellers">Best Sellers</Link></li>
+                        <li><Link to="/sale-items">Sale Items</Link></li>
                     </ul>
                     <ul className="right-menu">
                         <li><a href="/community" onClick={onCommunityClick}>Community</a></li>
-                        <li><a href="/contact-us">Contact Us</a></li>
+                        <li><Link to="/contact-us">Contact Us</Link></li>
+                        <li><Link to="/mypage">My Page</Link></li> {/* MyPage 링크 */}
                     </ul>
                 </nav>
                 <div className="auth">
-                    <form className="search-form" onSubmit={handleSearchSubmit}>
-                        <input
-                            type="text"
-                            className="search-input"
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                            placeholder="Search"
-                        />
-                    </form>
+                    <button className="pharmacy-btn" onClick={handlePharmacySearch}>Find Pharmacy</button>
                     <button className="login-btn" onClick={onLoginClick}>Sign In</button>
+                          
                     <button className="cart-btn" onClick={onCartClick}>
                         Cart {cartCount > 0 && `(${cartCount})`}
                     </button>
                 </div>
             </div>
+            {mapVisible && <div id="map" style={{ height: '400px', width: '100%' }}></div>}
         </header>
     );
 };
